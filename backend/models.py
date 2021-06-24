@@ -137,6 +137,21 @@ class Project(models.Model):
         default='Pending')
     completed_date = models.DateField(auto_now_add=True, null=True, blank=True)
 
+    @property
+    def all_task(self):
+        task = self.task_set.all().select_related('project')
+        return task
+
+    def pending_task(self):
+        task = self.task_set.filter(status='Pending').select_related('project')
+        return task      
+
+
+    def complete_task(self):
+        task = self.task_set.filter(status='Completed').select_related('project')
+        return task      
+    
+
     def __str__(self):
         return self.name
 
@@ -145,9 +160,9 @@ class Task(models.Model):
     project = models.ForeignKey(Project, null=True, blank=True, on_delete=models.SET_NULL)
     task = models.CharField(max_length=200)
     description = models.CharField(max_length=500, null=True, blank=True)
-    assigned_to = models.ManyToManyField(Employee, related_name='+')
-    leader = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, related_name='+')
-    priority = models.CharField(choices=(('High', 'High'), ('Medium', 'Medium'), ('Low', 'Low')), max_length=100)
+    assigned_to = models.ManyToManyField(Employee, related_name='+',null=True,blank=True)
+    leader = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, related_name='+',blank=True)
+    priority = models.CharField(choices=(('High', 'High'), ('Medium', 'Medium'), ('Low', 'Low')), max_length=100,null=True,blank=True)
     files = models.FileField(upload_to='media/task_files', null=True, blank=True)
     created_date = models.DateTimeField(auto_now=True)
     deadline = models.DateField(null=True, blank=True)

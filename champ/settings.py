@@ -81,12 +81,8 @@ WSGI_APPLICATION = 'champ.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'champ2',
-        'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 'rockstar@12'
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

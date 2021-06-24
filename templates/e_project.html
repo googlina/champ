@@ -20,7 +20,10 @@
             </div>
         </div>
         <!-- /Page Header -->
-
+        <p id="project_message" align="center"></p>
+            {% for message in messages %}
+            <p align="center">{{message}}</p>
+            {%endfor%}
         <!-- Search Filter -->
         <div class="row filter-row">
             <div class="col-sm-6 col-md-3">
@@ -114,6 +117,53 @@
                         </div>
                     </div>
                 </div>
+                <!-- Add task to project -->
+    <div id="add_task" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" style="width: 30%" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Task to project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label> <b>Task</b></label>
+                                    <input class="form-control" type="text" id="task_name" name="task_name" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label><b>Description</b></label>
+                                    <textarea rows="4" class="form-control"
+                                              placeholder="Enter your message here" id="task_description" name="task_description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label><b>Upload Files</b></label>
+                                    <input class="form-control" type="file" id="task_file" name="task_file">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="submit-section">
+                            <button class="btn btn-primary submit-btn"type="button" id="save_task"><b>Save</b></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add task to project -->
             {% endfor %}
         </div>
     </div>
@@ -246,53 +296,6 @@
         </div>
     </div>
     <!-- /Create Project Modal -->
-    <!-- Add task to project -->
-    <div id="add_task" class="modal custom-modal fade" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-lg" style="width: 30%" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Task to project</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label> <b>Task</b></label>
-                                    <input class="form-control" type="text" id="task_name" name="task_name" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label><b>Description</b></label>
-                                    <textarea rows="4" class="form-control"
-                                              placeholder="Enter your message here" id="task_description" name="task_description"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label><b>Upload Files</b></label>
-                                    <input class="form-control" type="file" id="task_file" name="task_file">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="submit-section">
-                            <button class="btn btn-primary submit-btn" id="save_task"><b>Save</b></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Add task to project -->
     <!-- Edit Project Modal -->
     <div id="edit_project" class="modal custom-modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

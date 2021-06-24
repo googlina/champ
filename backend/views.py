@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from backend.models import Department, Employee, Designation, User_type, Project
+from backend.models import Department, Employee, Designation, Task, User_type, Project
 from main.models import CustomUser
 
 # Create your views here.
-from backend.forms import Add_Employee_Form, AddProjectForm
+from backend.forms import AddDepartmentForm, AddDesignationForm, Add_Employee_Form, AddProjectForm
 
 
 def validate_username(request):
@@ -84,6 +84,7 @@ def add_project(request):
     if request.method == 'POST':
         project_name = request.POST['name']
         department = request.POST['department']
+
         start_date = request.POST['start_date']
         deadline = request.POST['deadline']
         priority = request.POST['priority']
@@ -91,18 +92,29 @@ def add_project(request):
         assigned_to = request.POST['assigned_to']
         description = request.POST['description']
         file = request.FILES.get('file')
-        print(
-            f'Project name is {project_name}, department is {department}, start date is {start_date}, deadline is {deadline}, priority is {priority}, leader is {leader}, team members are {assigned_to}, description is {description}')
-        newProject = Project.objects.create(name=project_name, department_id=department, start_date=start_date,
+        # print(
+        #     f'Project name is {project_name}, department is {department}, start date is {start_date}, deadline is {deadline}, priority is {priority}, leader is {leader}, team members are {assigned_to}, description is {description}')
+        newProject = Project.objects.create(name=project_name, department_id= int(department), start_date=start_date,
                                             deadline=deadline, priority=priority, leader_id=leader,
                                             description=description, files=file, created_by_id=request.user.id)
         newProject.save()
         newProject.assigned_to.set(assigned_to)
+
         newProject.save()
-        messages.success(request, 'Project has been created. Now you add tasks to this project')
+        messages.success(request, 'Project has been created. Now you can add tasks to this project')
         print('Project has been added')
     return redirect('e_project')
 
+
+# def add_project_task(request,pk):
+#     project = Project.objects.prefetch_related().get(id=pk)
+#     if request.method == "POST":
+#         project_id = request.POST['pid']
+#         task_name = request.POST['task_name']
+#         task_description = request.POST['task_description']
+#         task_file = request.POST['task_file']
+#         print(project_id,task_name,task_description,task_file)
+#     return JsonResponse('')
 
 def add_project_task(request):
     if request.method == "POST":
@@ -110,13 +122,37 @@ def add_project_task(request):
         task_name = request.POST['task_name']
         task_description = request.POST['task_description']
         task_file = request.POST['task_file']
+        project = Project.objects.prefetch_related().get(id=project_id)
         print(project_id,task_name,task_description,task_file)
-    return JsonResponse('')
+        new_task = Task.objects.create(project=project,task=task_name,description=task_description,files = task_file)
+        new_task.save()
+    return JsonResponse('Task has been saved',safe=False)    
+
+
+def add_department(request):
+    if request.method == 'POST':
+        form = AddDepartmentForm(request.POST)
+        if form.is_valid():
+            new_department = form.save(commit=False)
+            new_department.created_by  = request.user.username
+            new_department.save()
+            messages.success(request,'Department has been added')
+    return redirect('departments')
+
+
+def add_desigantion(request):
+    if request.method == 'POST':
+        form = AddDesignationForm(request.POST)
+        print(form)
+        if form.is_valid():
+            new_designation = form.save(commit=False)
+            new_designation.created_by = request.user.username
+            new_designation.save()
+            messages.success(request,'Degisnation has been added')
+    return redirect('designations')    
+
 
 
 def admin_attendance(request):
     return render(request, 'admin/attendance_admin.html')
 
-
-def holidays(request):
-    return render(request, 'e_holidays.html')

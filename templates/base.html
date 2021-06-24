@@ -256,14 +256,13 @@
                                 class="menu-arrow"></span></a>
                         <ul style="display: none;">
                             <li><a href="{% url 'e_list' %}">All Employees</a></li>
-                            <li><a href="">Holidays</a></li>
                             <li><a href="">Leaves (Admin) <span
                                     class="badge badge-pill bg-primary float-right">1</span></a></li>
                             <li><a href="">Leave Settings</a></li>
-                            <li><a href="">Attendance (Admin)</a></li>
-                            <li><a href="">Departments</a></li>
-                            <li><a href="">Designations</a></li>
-                            <li><a href="">Timesheet</a></li>
+                            <li><a href="{% url 'a_attendance'%}">Attendance (Admin)</a></li>
+                            <li><a href="{% url "departments" %}">Departments</a></li>
+                            <li><a href="{% url "designations" %}">Designations</a></li>
+                            <li><a href="{% url "e_timesheet" %}">Timesheet</a></li>
                             <li><a href="">Overtime</a></li>
                         </ul>
                     </li>
@@ -325,21 +324,12 @@
                     <li>
                         <a href="{% url 'e_list' %}" class="noti-dot"><i class="la la-user"></i> <span> Employees</span></a>
                     </li>
-                    <li>
-                        <a href="{% url 'e_list' %}" class="noti-dot"><i class="la la-user"></i> <span> Department</span></a>
-                    </li>
-                    <li>
-                        <a href="{% url 'e_list' %}" class="noti-dot"><i class="la la-user"></i> <span> Designations</span></a>
-                    </li>
+                    
                     <li>
                         <a href="{% url 'e_attendance' %}" class="noti-dot"><i class="fa fa-clock-o"></i> <span> Attendance</span></a>
                     </li>
                     <li>
-                        <a href="{% url 'a_attendance' %}" class="noti-dot"><i class="fa fa-clock-o"></i> <span> Attendance - Admin</span></a>
-                    </li>
-                    <li>
-                        <a href="{% url 'e_leave' %}" class="noti-dot"><i class="la la-user"></i>
-                            <span> Leaves</span></a>
+                        <a href="{% url 'e_leave' %}" class="noti-dot"><i class="la la-user"></i> <span> Leaves</span></a>
                     </li>
                     <li>
                         <a href="{% url 'e_timesheet' %}" class="noti-dot"><i class="fa fa-clock-o"></i> <span> Timesheet</span></a>

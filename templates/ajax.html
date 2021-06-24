@@ -7,14 +7,22 @@
             let task_file = $("#task_file").val();
             let csrf_token = $("input[name=csrfmiddlewaretoken]").val()
             let task_data = {pid: pid, task_name: task_name, task_description: task_description, task_file: task_file,csrfmiddlewaretoken:csrf_token}
+            if (task_name == ""){
+                alert('Task name shouldnt be blank')
+            }
+            else {
             $.ajax({
                 url: "{% url 'add_project_task' %}",
                 method: "POST",
                 data: task_data,
-                success:function (){
-                    console.log(task_data)
+                success:function (response){
+                    console.log(response)
+                    $("#add_task").modal('hide');
+                    $('#add_task form')[0].reset();
+                    $("#project_message").text(response);
                 }
             })
+            };
         })
 
     })

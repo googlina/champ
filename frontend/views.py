@@ -1,9 +1,42 @@
 from django.shortcuts import render
-from backend.forms import Add_Employee_Form,AddProjectForm
+from backend.forms import AddDepartmentForm, AddDesignationForm, Add_Employee_Form,AddProjectForm
 from backend.models import Department,Designation,Employee,Depot,User_type,Project,FamilyInfo,WorkExpInfo,EduInfo
 import os
 from champ.settings import BASE_DIR
 # Create your views here.
+
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+
+# Create your views here.
+from main.models import CustomUser
+
+
+def user_login(request):
+    if request.user.is_authenticated:
+        user = CustomUser.objects.get(id=request.user.id)
+        print(user)
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if user.user_type == 'Admin':
+                return redirect('a_dashboard')
+            elif user.user_type == 'Employee':
+                return redirect('e_dashboard')
+        else:
+            messages.error(request, 'Invalid credentials')
+            return redirect('login')
+
+    return render(request, 'login.html')
+
+
+def admin_dashboard(request):
+    return render(request, 'admin_dashboard.html')
 
 
 def employee_dashboard(request):
@@ -54,6 +87,19 @@ def view_project(request,pk):
     project_file_name = my_list[-1]
     context = {'project': project,'project_file_name':project_file_name}
     return render(request,'view_project.html',context)
+
+def departments(request):
+    form = AddDepartmentForm
+    departments = Department.objects.prefetch_related().all()
+    context = {'form':form,'departments':departments}
+    return render(request, 'departments.html',context)    
+
+
+def designations(request):
+    form = AddDesignationForm
+    designations = Designation.objects.select_related('department').prefetch_related().all()
+    context = {'form':form,'designations':designations}
+    return render(request, 'designations.html',context)        
 
 def e_task(request):
     form = AddProjectForm

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import CustomUser, Zone, State, Depot, City
 from backend.models import Employee, Department, Designation, User_type, Project, PersonalInfo, BankInfo, FamilyInfo, \
-    EduInfo, EmergencyContact, WorkExpInfo
+    EduInfo, EmergencyContact, WorkExpInfo,Task
 
 # Register your models here.
 
@@ -21,3 +21,4 @@ admin.site.register(EmergencyContact)
 admin.site.register(EduInfo)
 admin.site.register(WorkExpInfo)
 admin.site.register(Project)
+admin.site.register(Task)

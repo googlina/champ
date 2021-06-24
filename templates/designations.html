@@ -30,6 +30,8 @@
                             <th style="width: 30px;">#</th>
                             <th>Designation</th>
                             <th>Department</th>
+                            <th>Created By</th>
+                            <th>Created Date</th>
                             <th class="text-right">Action</th>
                         </tr>
                         </thead>
@@ -39,6 +41,8 @@
                             <td>{{ designation.id }}</td>
                             <td>{{ designation}}</td>
                             <td>{{ designation.department}}</td>
+                            <td>{{ designation.created_by}}</td>
+                            <td>{{ designation.created_date}}</td>
                             <td class="text-right">
                                 <div class="dropdown dropdown-action">
                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
@@ -72,7 +76,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post">
+                    <form method="post" action = {% url 'add_designation' %} >
                         {% csrf_token %}
                         <div class="form-group">
                             <label>Designation Name <span class="text-danger">*</span></label>

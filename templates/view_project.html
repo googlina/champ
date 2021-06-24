@@ -29,8 +29,8 @@
                     <div class="card-body">
                         <div class="project-title">
                             <h5 class="card-title">{{ project.name}}</h5>
-                            <small class="block text-ellipsis m-b-15"><span class="text-xs">2</span> <span
-                                    class="text-muted">open tasks, </span><span class="text-xs">5</span> <span
+                            <small class="block text-ellipsis m-b-15"><span class="text-xs">{{ project.pending_task.count }}</span> <span
+                                    class="text-muted">open tasks, </span><span class="text-xs">{{ project.complete_task.count }}</span> <span
                                     class="text-muted">tasks completed</span></small>
                         </div>
                         <p>{{ project.description}}</p>
@@ -83,46 +83,8 @@
                                 <div class="task-list-container">
                                     <div class="task-list-body">
                                         <ul id="task-list">
-                                            <li class="task">
-                                                <div class="task-container">
-																<span class="task-action-btn task-check">
-																	<span class="action-circle large complete-btn"
-                                                                          title="Mark Complete">
-																		<i class="material-icons">check</i>
-																	</span>
-																</span>
-                                                    <span class="task-label" contenteditable="true">Patient appointment booking</span>
-                                                    <span class="task-action-btn task-btn-right">
-																	<span class="action-circle large" title="Assign">
-																		<i class="material-icons">person_add</i>
-																	</span>
-																	<span class="action-circle large delete-btn"
-                                                                          title="Delete Task">
-																		<i class="material-icons">delete</i>
-																	</span>
-																</span>
-                                                </div>
-                                            </li>
-                                            <li class="task">
-                                                <div class="task-container">
-																<span class="task-action-btn task-check">
-																	<span class="action-circle large complete-btn"
-                                                                          title="Mark Complete">
-																		<i class="material-icons">check</i>
-																	</span>
-																</span>
-                                                    <span class="task-label" contenteditable="true">Appointment booking with payment gateway</span>
-                                                    <span class="task-action-btn task-btn-right">
-																	<span class="action-circle large" title="Assign">
-																		<i class="material-icons">person_add</i>
-																	</span>
-																	<span class="action-circle large delete-btn"
-                                                                          title="Delete Task">
-																		<i class="material-icons">delete</i>
-																	</span>
-																</span>
-                                                </div>
-                                            </li>
+                                        {% for task in project.all_task %}
+                                            {% if task.status == "Completed" %}
                                             <li class="completed task">
                                                 <div class="task-container">
 																<span class="task-action-btn task-check">
@@ -131,7 +93,7 @@
 																		<i class="material-icons">check</i>
 																	</span>
 																</span>
-                                                    <span class="task-label">Doctor available module</span>
+                                                    <span class="task-label">{{task.task}}</span>
                                                     <span class="task-action-btn task-btn-right">
 																	<span class="action-circle large" title="Assign">
 																		<i class="material-icons">person_add</i>
@@ -143,6 +105,7 @@
 																</span>
                                                 </div>
                                             </li>
+                                            {% else %}
                                             <li class="task">
                                                 <div class="task-container">
 																<span class="task-action-btn task-check">
@@ -151,7 +114,7 @@
 																		<i class="material-icons">check</i>
 																	</span>
 																</span>
-                                                    <span class="task-label" contenteditable="true">Patient and Doctor video conferencing</span>
+                                                    <span class="task-label" contenteditable="true">{{task.task}}</span>
                                                     <span class="task-action-btn task-btn-right">
 																	<span class="action-circle large" title="Assign">
 																		<i class="material-icons">person_add</i>
@@ -163,63 +126,79 @@
 																</span>
                                                 </div>
                                             </li>
-                                            <li class="task">
-                                                <div class="task-container">
-																<span class="task-action-btn task-check">
-																	<span class="action-circle large complete-btn"
-                                                                          title="Mark Complete">
-																		<i class="material-icons">check</i>
-																	</span>
-																</span>
-                                                    <span class="task-label"
-                                                          contenteditable="true">Private chat module</span>
-                                                    <span class="task-action-btn task-btn-right">
-																	<span class="action-circle large" title="Assign">
-																		<i class="material-icons">person_add</i>
-																	</span>
-																	<span class="action-circle large delete-btn"
-                                                                          title="Delete Task">
-																		<i class="material-icons">delete</i>
-																	</span>
-																</span>
-                                                </div>
-                                            </li>
-                                            <li class="task">
-                                                <div class="task-container">
-																<span class="task-action-btn task-check">
-																	<span class="action-circle large complete-btn"
-                                                                          title="Mark Complete">
-																		<i class="material-icons">check</i>
-																	</span>
-																</span>
-                                                    <span class="task-label"
-                                                          contenteditable="true">Patient Profile add</span>
-                                                    <span class="task-action-btn task-btn-right">
-																	<span class="action-circle large" title="Assign">
-																		<i class="material-icons">person_add</i>
-																	</span>
-																	<span class="action-circle large delete-btn"
-                                                                          title="Delete Task">
-																		<i class="material-icons">delete</i>
-																	</span>
-																</span>
-                                                </div>
-                                            </li>
+                                            {% endif %}
+                                            {% endfor %}
                                         </ul>
                                     </div>
-                                    <div class="task-list-footer">
-                                        <div class="new-task-wrapper">
-                                            <textarea id="new-task" placeholder="Enter new task here. . ."></textarea>
-                                            <span class="error-message hidden">You need to enter a task first</span>
-                                            <span class="add-new-task-btn btn" id="add-task">Add Task</span>
-                                            <span class="btn" id="close-task-panel">Close</span>
-                                        </div>
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane show active" id="pending_tasks">
+                            <div class="task-wrapper">
+                                <div class="task-list-container">
+                                    <div class="task-list-body">
+                                        <ul id="task-list">
+                                        {% for task in project.pending_task %}
+                                            <li class="task">
+                                                <div class="task-container">
+																<span class="task-action-btn task-check">
+																	<span class="action-circle large complete-btn"
+                                                                          title="Mark Complete">
+																		<i class="material-icons">check</i>
+																	</span>
+																</span>
+                                                    <span class="task-label" contenteditable="true">{{task.task}}</span>
+                                                    <span class="task-action-btn task-btn-right">
+																	<span class="action-circle large" title="Assign">
+																		<i class="material-icons">person_add</i>
+																	</span>
+																	<span class="action-circle large delete-btn"
+                                                                          title="Delete Task">
+																		<i class="material-icons">delete</i>
+																	</span>
+																</span>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane show active" id="completed_tasks">
+                            <div class="task-wrapper">
+                                <div class="task-list-container">
+                                    <div class="task-list-body">
+                                        <ul id="task-list">
+                                        {% for task in project.complete_task %}
+                                            <li class="task">
+                                                <div class="task-container">
+																<span class="task-action-btn task-check">
+																	<span class="action-circle large complete-btn"
+                                                                          title="Mark Complete">
+																		<i class="material-icons">check</i>
+																	</span>
+																</span>
+                                                    <span class="task-label" contenteditable="true">{{task.task}}</span>
+                                                    <span class="task-action-btn task-btn-right">
+																	<span class="action-circle large" title="Assign">
+																		<i class="material-icons">person_add</i>
+																	</span>
+																	<span class="action-circle large delete-btn"
+                                                                          title="Delete Task">
+																		<i class="material-icons">delete</i>
+																	</span>
+																</span>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="pending_tasks"></div>
-                        <div class="tab-pane" id="completed_tasks"></div>
                     </div>
                 </div>
             </div>
@@ -230,53 +209,35 @@
                         <table class="table table-striped table-border">
                             <tbody>
                             <tr>
-                                <td>Cost:</td>
-                                <td class="text-right">$1200</td>
-                            </tr>
-                            <tr>
                                 <td>Total Hours:</td>
-                                <td class="text-right">100 Hours</td>
+                                <td class="text-right">{{ project.deadline |timesince:project.start_date }}</td>
                             </tr>
                             <tr>
                                 <td>Created:</td>
-                                <td class="text-right">25 Feb, 2019</td>
+                                <td class="text-right">{{project.created_date}}</td>
                             </tr>
                             <tr>
                                 <td>Deadline:</td>
-                                <td class="text-right">12 Jun, 2019</td>
+                                <td class="text-right">{{project.deadline}}</td>
                             </tr>
                             <tr>
                                 <td>Priority:</td>
-                                <td class="text-right">
-                                    <div class="btn-group">
-                                        <a href="#" class="badge badge-danger dropdown-toggle" data-toggle="dropdown">Highest </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fa fa-dot-circle-o text-danger"></i> Highest priority</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fa fa-dot-circle-o text-info"></i> High priority</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fa fa-dot-circle-o text-primary"></i> Normal priority</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fa fa-dot-circle-o text-success"></i> Low priority</a>
-                                        </div>
-                                    </div>
-                                </td>
+                                <td class="text-right"> {{project.priority}}</td>
                             </tr>
                             <tr>
                                 <td>Created by:</td>
-                                <td class="text-right"><a href="profile.html">Barry Cuda</a></td>
+                                <td class="text-right"><a href="">{{project.created_by.first_name}}</a></td>
                             </tr>
                             <tr>
                                 <td>Status:</td>
-                                <td class="text-right">Working</td>
+                                <td class="text-right">{{project.status}}</td>
                             </tr>
                             </tbody>
                         </table>
-                        <p class="m-b-5">Progress <span class="text-success float-right">40%</span></p>
+                        <p class="m-b-5">Progress <span class="text-success float-right">{% widthratio project.complete_task.count project.all_task.count 100 %}%</span></p>
                         <div class="progress progress-xs mb-0">
-                            <div class="progress-bar bg-success" role="progressbar" data-toggle="tooltip" title="40%"
-                                 style="width: 40%"></div>
+                            <div class="progress-bar bg-success" role="progressbar" data-toggle="tooltip" title="{% widthratio project.complete_task.count project.all_task.count 100 %}%"
+                                 style="width: {% widthratio project.complete_task.count project.all_task.count 100 %}%"></div>
                         </div>
                     </div>
                 </div>
@@ -296,24 +257,9 @@
                                                                       src="assets/img/profiles/avatar-11.jpg"></span>
                                         </div>
                                         <div class="list-body">
-                                            <span class="message-author">Wilmer Deluna</span>
+                                            <span class="message-author">{{project.leader.first_name}}</span>
                                             <div class="clearfix"></div>
-                                            <span class="message-content">Team Leader</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="profile.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar"><img alt=""
-                                                                      src="assets/img/profiles/avatar-01.jpg"></span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Lesley Grauer</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Team Leader</span>
+                                            <span class="message-content">{{project.leader.designation}}</span>
                                         </div>
                                     </div>
                                 </a>
@@ -330,6 +276,7 @@
                             </button>
                         </h6>
                         <ul class="list-box">
+                        {% for user in project.assigned_to.all %}
                             <li>
                                 <a href="profile.html">
                                     <div class="list-item">
@@ -338,28 +285,14 @@
                                                                       src="assets/img/profiles/avatar-02.jpg"></span>
                                         </div>
                                         <div class="list-body">
-                                            <span class="message-author">John Doe</span>
+                                            <span class="message-author">{{user.first_name}}</span>
                                             <div class="clearfix"></div>
-                                            <span class="message-content">Web Designer</span>
+                                            <span class="message-content">{{user.designation}}</span>
                                         </div>
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a href="profile.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar"><img alt=""
-                                                                      src="assets/img/profiles/avatar-09.jpg"></span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Richard Miles</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Web Developer</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
+                            {%endfor%}
                         </ul>
                     </div>
                 </div>

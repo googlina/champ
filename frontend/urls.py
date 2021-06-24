@@ -9,6 +9,8 @@ urlpatterns = [
     path('e_grid', views.e_grid, name='e_grid'),
     path('e_project', views.e_project, name='e_project'),
     path('project_view<int:pk>', views.view_project, name='view_project'),
+    path('HR/departments/', views.departments, name='departments'),
+    path('HR/designations/', views.designations, name='designations'),
     path('e_task', views.e_task, name='e_task'),
     path('view_task<int:pk>', views.view_task, name='view_task'),
     path('e_task_board', views.e_task_board, name='e_task_bord'),
@@ -24,6 +26,9 @@ urlpatterns = [
     path('e_resignation', views.e_resignation, name='e_resignation'),
     path('e_jobs', views.e_jobs, name='e_jobs'),
     path('knowledge_base', views.knowledge_base, name='knowledge_base'),
-    path('e_activity', views.e_activity, name='e_activity'),
+    path('e_activity', views.e_activity, name='e_activity'), 
+    path('', views.user_login, name='login'),
+    path('dashboard', views.admin_dashboard, name='a_dashboard'),
+
 
 ]
